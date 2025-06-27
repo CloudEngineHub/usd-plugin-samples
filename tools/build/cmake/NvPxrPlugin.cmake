@@ -63,8 +63,14 @@ endif()
 # of cmake paths and the fact that using modules
 # we have no control over limitation of NO_CMAKE_PATH
 
-# Step 1: Get the root of the env (strip the 'bin' from the path)
-get_filename_component(Python3_ROOT_DIR "${PXR_OPENUSD_PYTHON_DIR}" DIRECTORY)
+# Step 1: Get the root of the env
+if (WIN32)
+	# Windows Python package has python.exe in its root folder
+    set(Python3_ROOT_DIR "${PXR_OPENUSD_PYTHON_DIR}")
+else()
+	# Linux Python package has python in its bin folder
+    get_filename_component(Python3_ROOT_DIR "${PXR_OPENUSD_PYTHON_DIR}" DIRECTORY)
+endif()
 
 # Step 2: Try to locate include directories
 if (WIN32)
